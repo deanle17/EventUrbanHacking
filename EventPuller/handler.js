@@ -14,9 +14,9 @@ exports.hello = async (event) => {
         let subpromise = notiList.map(async (item) => {
             let query =
                 `
-                INSERT INTO notificationsdev("notifiedAt", x, y, "floorNum", latitude, longitude, "deviceId")
+                INSERT INTO notifications("notifiedAt", x, y, "floorNum", latitude, longitude, "deviceId")
                 VALUES($1, $2, $3, $4, $5, $6, $7)
-                ON CONFLICT ON CONSTRAINT notificationsdev_devicedId_unique
+                ON CONFLICT ON CONSTRAINT notifications_devicedId_unique
                 DO UPDATE SET
                     "notifiedAt" = $1,
                     x = $2,
@@ -24,7 +24,7 @@ exports.hello = async (event) => {
                     "floorNum" = $4,
                     latitude = $5,
                     longitude = $6
-                WHERE notificationsdev."deviceId" = $7
+                WHERE notifications."deviceId" = $7
                 `
             try {
                 await pgClient.query(query, [
