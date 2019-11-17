@@ -1,0 +1,18 @@
+service: UrbanHack # NOTE: update this with your service name
+
+provider:
+    name: aws
+    runtime: nodejs10.x
+    region: eu-west-1
+
+functions:
+    EventPuller:
+        handler: handler.hello
+        environment:
+            PGHOST: pg-7d61f7-lecungdinh-7cdc.aivencloud.com
+            PGPORT: 21510
+            PGDATABASE: junction19
+            PGUSER: avnadmin
+            PGPASSWORD: vvodeuqhtjda0zmz
+            PGREQUIRESSL: 1
+            PGSSLMODE: require
