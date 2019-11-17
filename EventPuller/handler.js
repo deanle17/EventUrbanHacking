@@ -14,12 +14,27 @@ exports.hello = async (event) => {
         let subpromise = notiList.map(async (item) => {
             let query =
                 `
-                INSERT INTO notifications("notifiedAt", x, y, "floorNum", latitude, longitude)
-                VALUES($1, $2, $3, $4, $5, $6)
+                INSERT INTO notificationsdev("notifiedAt", x, y, "floorNum", latitude, longitude, "deviceId")
+                VALUES($1, $2, $3, $4, $5, $6, $7)
+                ON CONFLICT ON CONSTRAINT notificationsdev_devicedId_unique
+                DO UPDATE SET
+                    "notifiedAt" = $1,
+                    x = $2,
+                    y = $3,
+                    "floorNum" = $4,
+                    latitude = $5,
+                    longitude = $6
+                WHERE notificationsdev."deviceId" = $7
                 `
             try {
                 await pgClient.query(query, [
-                    item.lastSeen, item.locationCoordinate.x, item.locationCoordinate.y, item.hierarchyDetails.floor.name, item.geoCoordinate.latitude, item.geoCoordinate.longitude
+                    item.lastSeen,
+                    item.locationCoordinate.x,
+                    item.locationCoordinate.y,
+                    item.hierarchyDetails.floor.name,
+                    item.geoCoordinate.latitude,
+                    item.geoCoordinate.longitude,
+                    item.deviceId
                 ]);
             }
             catch (error) {
