@@ -16,3 +16,6 @@ functions:
             PGPASSWORD: vvodeuqhtjda0zmz
             PGREQUIRESSL: 1
             PGSSLMODE: require
+        events:
+            - schedule:
+                  rate: cron(0 * * ? * *)
